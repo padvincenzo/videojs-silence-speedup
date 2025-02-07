@@ -1,2 +1,2 @@
-# vjs-silence-speedup
-VideoJS plugin to speedup on given silences
+# Silence SpeedUp VideoJS plugin
+VideoJS plugin to speedup the video on given silences.

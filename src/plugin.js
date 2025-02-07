@@ -15,7 +15,7 @@ class SilenceSpeedUp extends Plugin {
     static DEFAULTS = {
         playbackSpeed: 1,
         silenceSpeed: 8,
-        timestamps: { 'start': [], 'end': [] },
+        timestamps: [],
         skipSilences: false,
         displayRealRemainingTime: true
     };
@@ -110,7 +110,7 @@ class SilenceSpeedUp extends Plugin {
     }
 
     setSilenceTimestamps(_timestamps) {
-        // Assume that timestamps are in the form of { start: [], end: [] } and in order of time.
+        // Timestamps must be in the form of [{t_start: 0, t_end: 0}, ...] and in order of time.
 
         // let timeUpdateMargin = this.#averageTimeUpdateInterval * this.#silenceSpeed * 2;
         // this.#timestamps = _timestamps.start.map((start, i) => {
@@ -120,17 +120,15 @@ class SilenceSpeedUp extends Plugin {
         // }).filter(Boolean);
 
         this.#timestamps = [];
-        for (let i = 0; i < _timestamps.start.length; i++) {
-            _timestamps.start[i] = +_timestamps.start[i] + (this.#playbackSpeed * 4);
-            _timestamps.end[i] = +_timestamps.end[i] - (this.#silenceSpeed * 4);
-            if (_timestamps.start[i] > _timestamps.end[i]) {
-                // Skip silence if it's not valid.
-                continue;
+
+        for (let i = 0; i < _timestamps.length; i++) {
+            _timestamps[i].t_start = +_timestamps[i].t_start + (this.#playbackSpeed * 4);
+            _timestamps[i].t_end = +_timestamps[i].t_end - (this.#silenceSpeed * 4);
+
+            // Skip silence if it's not valid.
+            if (_timestamps[i].t_start <= _timestamps[i].t_end) {
+                this.#timestamps.push(_timestamps[i]);
             }
-            this.#timestamps.push({
-                t_start: _timestamps.start[i],
-                t_end: _timestamps.end[i],
-            });
         }
 
         this.#nextEnd = 0;

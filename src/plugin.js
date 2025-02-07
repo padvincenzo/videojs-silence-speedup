@@ -109,7 +109,7 @@ class SilenceSpeedUp extends Plugin {
         }
     }
 
-    setSilenceTimestamps(_timestamps) {
+    setSilenceTimestamps(_timestamps = []) {
         // Timestamps must be in the form of [{t_start: 0, t_end: 0}, ...] and in order of time.
 
         // let timeUpdateMargin = this.#averageTimeUpdateInterval * this.#silenceSpeed * 2;
@@ -121,7 +121,12 @@ class SilenceSpeedUp extends Plugin {
 
         this.#timestamps = [];
 
+        if (!Array.isArray(_timestamps)) {
+            return;
+        }
+
         for (let i = 0; i < _timestamps.length; i++) {
+            // Add an extra margin based on given speeds.
             _timestamps[i].t_start = +_timestamps[i].t_start + (this.#playbackSpeed * 4);
             _timestamps[i].t_end = +_timestamps[i].t_end - (this.#silenceSpeed * 4);
 

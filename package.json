@@ -1,6 +1,6 @@
 {
   "name": "videojs-silence-speedup",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "VideoJS plugin to speedup the video on given silences",
   "main": "dist/videojs-silence-speedup.cjs.js",
   "module": "dist/videojs-silence-speedup.es.js",

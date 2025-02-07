@@ -117,7 +117,7 @@ class SilenceSpeedUp extends Plugin {
                 return {
                     // Add an extra margin based on given speeds.
                     t_start: +silence.t_start + (this.#playbackSpeed * 0.08),
-                    t_end: +silence.t_end - (this.#silenceSpeed * 0.08),
+                    t_end: +silence.t_end - (this.#silenceSpeed * 0.12),
                 }
             })
             .filter((silence) => silence.t_end > silence.t_start) // Remove no sense silences.

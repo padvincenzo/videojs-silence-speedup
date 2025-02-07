@@ -136,6 +136,10 @@ class SilenceSpeedUp extends Plugin {
         this.#nextEnd = 0;
     }
 
+    getSilenceTimestamps(_timestamps) {
+        return this.#timestamps;
+    }
+
     setPlaybackSpeed(_playbackSpeed) {
         let speed = Math.max(0.2, Math.min(20, +_playbackSpeed));
         this.#playbackSpeed = speed.toFixed(1);

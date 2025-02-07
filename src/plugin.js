@@ -98,8 +98,10 @@ class SilenceSpeedUp extends Plugin {
 
     skipCurrentSilence() {
         if (this.#nextEnd !== 0) {
-            this.player.currentTime(this.#nextEnd);
-            this.player.trigger('silence-skipped', { skippedTo: this.#nextEnd });
+            let skipTo = this.#nextEnd + 0.1;
+            this.#nextEnd = 0;
+            this.player.currentTime(skipTo);
+            this.player.trigger('silence-skipped', { skippedTo: skipTo });
         }
     }
 

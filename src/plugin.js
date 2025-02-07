@@ -107,6 +107,7 @@ class SilenceSpeedUp extends Plugin {
         // TODO: Improve margin with a dynamic value based on player performance.
 
         if (!Array.isArray(_timestamps)) {
+            console.error("Silence timestamps must be an array of objects with t_start and t_end properties. Given:", _timestamps);
             this.#timestamps = [];
             return;
         }
@@ -148,7 +149,8 @@ class SilenceSpeedUp extends Plugin {
     }
 
     getCurrent(needle = 0) {
-        if (!this.#timestamps) {
+        if (!this.#timestamps || !Array.isArray(this.#timestamps)) {
+            console.error("Silence timestamps not valid:", this.#timestamps);
             return undefined;
         }
         return this.#timestamps.find(silence => needle <= silence.t_end && needle >= silence.t_start);
@@ -159,7 +161,8 @@ class SilenceSpeedUp extends Plugin {
     }
 
     #updateRemainingTime(currentTime) {
-        if (!this.#timestamps) {
+        if (!this.#timestamps || !Array.isArray(this.#timestamps)) {
+            console.error("Silence timestamps not valid:", this.#timestamps);
             this.#remainingTimeDisplay.innerText = this.#secondsToTime(this.player.remainingTime());
             return;
         }

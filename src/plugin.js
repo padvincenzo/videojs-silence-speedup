@@ -29,8 +29,6 @@ class SilenceSpeedUp extends Plugin {
     #skipSilenceBtn;
     #remainingTimeDisplay;
     #currentRemainingTimeDisplay;
-    // #lastTimeUpdate = performance.now();
-    // #averageTimeUpdateInterval = 0.2;
 
     #initSkipButton() {
         this.#skipSilenceBtn = document.createElement("div");
@@ -60,10 +58,6 @@ class SilenceSpeedUp extends Plugin {
 
     #initEventListeners() {
         this.player.on("timeupdate", (e) => {
-            // let now = performance.now();
-            // this.#averageTimeUpdateInterval = (this.#averageTimeUpdateInterval * 0.9) + ((now - this.#lastTimeUpdate) * 0.1) / 1000;
-            // this.#lastTimeUpdate = now;
-
             let currentTime = +this.player.currentTime();
             let currentSilence = this.getCurrent(currentTime);
 
@@ -110,31 +104,23 @@ class SilenceSpeedUp extends Plugin {
     }
 
     setSilenceTimestamps(_timestamps = []) {
-        // Timestamps must be in the form of [{t_start: 0, t_end: 0}, ...] and in order of time.
-
-        // let timeUpdateMargin = this.#averageTimeUpdateInterval * this.#silenceSpeed * 2;
-        // this.#timestamps = _timestamps.start.map((start, i) => {
-        //     let newStart = +start + (this.#playbackSpeed * 4) - timeUpdateMargin;
-        //     let newEnd = +_timestamps.end[i] - (this.#silenceSpeed * 4) + timeUpdateMargin;
-        //     return newStart < newEnd ? { t_start: newStart, t_end: newEnd } : null;
-        // }).filter(Boolean);
-
-        this.#timestamps = [];
+        // TODO: Improve margin with a dynamic value based on player performance.
 
         if (!Array.isArray(_timestamps)) {
+            this.#timestamps = [];
             return;
         }
 
-        for (let i = 0; i < _timestamps.length; i++) {
-            // Add an extra margin based on given speeds.
-            _timestamps[i].t_start = +_timestamps[i].t_start + (this.#playbackSpeed * 4);
-            _timestamps[i].t_end = +_timestamps[i].t_end - (this.#silenceSpeed * 4);
-
-            // Skip silence if it's not valid.
-            if (_timestamps[i].t_start <= _timestamps[i].t_end) {
-                this.#timestamps.push(_timestamps[i]);
-            }
-        }
+        this.#timestamps = _timestamps
+            .map((silence) => {
+                return {
+                    // Add an extra margin based on given speeds.
+                    t_start: +silence.t_start + (this.#playbackSpeed * 4),
+                    t_end: +silence.t_end - (this.#silenceSpeed * 4),
+                }
+            })
+            .filter((silence) => silence.t_end > silence.t_start) // Remove no sense silences.
+            .sort((silence1, silence2) => silence1.t_start - silence2.t_start); // Sort timestamps.
 
         this.#nextEnd = 0;
     }
@@ -162,6 +148,9 @@ class SilenceSpeedUp extends Plugin {
     }
 
     getCurrent(needle = 0) {
+        if (!this.#timestamps) {
+            return undefined;
+        }
         return this.#timestamps.find(silence => needle <= silence.t_end && needle >= silence.t_start);
     }
 

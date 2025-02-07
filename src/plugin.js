@@ -136,7 +136,7 @@ class SilenceSpeedUp extends Plugin {
         this.#nextEnd = 0;
     }
 
-    getSilenceTimestamps(_timestamps) {
+    getSilenceTimestamps() {
         return this.#timestamps;
     }
 

@@ -87,9 +87,9 @@ class SilenceSpeedUp extends Plugin {
         this.options = { ...SilenceSpeedUp.DEFAULTS, ...options };
         this.#playbackSpeed = Math.max(0.2, Math.min(20, +this.options.playbackSpeed)).toFixed(1);
         this.#silenceSpeed = Math.max(0.2, Math.min(20, +this.options.silenceSpeed)).toFixed(1);
-        this.#timestamps = this.setSilenceTimestamps(this.options.timestamps);
         this.#skipSilences = this.options.skipSilences;
         this.#displayRealRemainingTime = this.options.displayRealRemainingTime;
+        this.setSilenceTimestamps(this.options.timestamps);
 
         this.#initSkipButton();
         this.#initRemainingTimeDisplay();

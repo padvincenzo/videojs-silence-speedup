@@ -1,0 +1,29 @@
+{
+  "name": "videojs-silence-speedup",
+  "version": "1.0.0",
+  "description": "VideoJS plugin to speedup the video on given silences",
+  "main": "src/plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/padvincenzo/videojs-silence-speedup.git"
+  },
+  "keywords": [
+    "videojs",
+    "videojs-plugin",
+    "silences",
+    "silence-speedup"
+  ],
+  "author": "Vincenzo Padula <padvincenzo@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/padvincenzo/videojs-silence-speedup/issues"
+  },
+  "homepage": "https://github.com/padvincenzo/videojs-silence-speedup#readme",
+  "dependencies": {
+    "global": "^4.4.0",
+    "videojs": "^1.0.0"
+  }
+}

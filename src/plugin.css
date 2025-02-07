@@ -1,0 +1,29 @@
+/**
+ * This file is part of videojs-silence-speedup, a VideoJS plugin
+ * that speed-up the video on given silences timestamps.
+ *
+ * @author Vincenzo Padula <padvincenzo@gmail.com>
+ * @copyright 2025
+ * @license ISC
+ */
+
+.vjs-skip-silence {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000c;
+  color: #fff;
+  font-size: 4em;
+  line-height: 0;
+  margin: 0.1em;
+  padding: 0.7em 0.5em;
+  border-radius: 0.5em;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.vjs-skip-silence::before {
+  content: "»";
+}

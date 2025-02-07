@@ -159,6 +159,11 @@ class SilenceSpeedUp extends Plugin {
     }
 
     #updateRemainingTime(currentTime) {
+        if (!this.#timestamps) {
+            this.#remainingTimeDisplay.innerText = this.#secondsToTime(this.player.remainingTime());
+            return;
+        }
+
         let remainingSilences = this.#timestamps.filter(silence => silence.t_end > currentTime);
         let remainingSilenceSeconds = remainingSilences.reduce((total, silence) => total + (silence.t_end - silence.t_start), 0);
         let remainingSpokenSeconds = this.player.duration() - currentTime - remainingSilenceSeconds;
